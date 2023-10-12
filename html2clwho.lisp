@@ -1,6 +1,6 @@
-(defpackage :html-conv
+(defpackage :html2clwho
   (:use :cl :plump :hunchentoot :cl-who))
-(in-package :html-conv)
+(in-package :html2clwho)
 
 (defun build-sexp (str)
   (labels
@@ -21,7 +21,7 @@
                       (map 'list #'iter (children root))))))))
     (apply #'concatenate (cons 'string (map 'list #'iter (children (plump:parse str)))))))
 
-(start (make-instance 'easy-acceptor :port 3333))
+(defvar *server* (make-instance 'easy-acceptor :port 3333))
 
 (defmacro main-layout (title &body body)
   `(with-html-output-to-string (*standard-output* nil :prologue t :indent t)
@@ -53,3 +53,6 @@
                    (:input :class "button" :type "submit")))
       (:div :class "container m-1" (:pre (write-string result))))))
 
+(defun main ()
+  (start *server*)
+  (sleep most-positive-fixnum))
