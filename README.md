@@ -11,7 +11,7 @@ git clone https://github.com/albertolerda/html-to-cl-who.git
 ```
 (ql:quickload :html2clwho)
 (asdf:load-system :html2clwho)
-(html-conv::main)
+(html2clwho::main)
 
 ```
 
