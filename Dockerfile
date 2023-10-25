@@ -23,4 +23,4 @@ COPY --from=builder /root/common-lisp/core .
 
 EXPOSE 3333
 
-CMD [ "sbcl", "--core", "core" ]
+ENTRYPOINT [ "sbcl", "--core", "core" ]

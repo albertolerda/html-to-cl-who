@@ -1,0 +1,33 @@
+name: 👷 Testing
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: containers.common-lisp.net/cl-docker-images/sbcl:latest
+
+    env:
+      GITHUB_ACTION: true
+      QUICKLISP_SETUP: /github/home/quicklisp/setup.lisp
+      GITHUB_WORKSPACE:
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: prepare quicklisp
+      shell: bash
+      run: |
+        install-quicklisp && \
+        if [ ! -f ${{ env.QUICKLISP_SETUP }} ]; then \
+            echo "Did not find Quicklisp setup file where expected: ${QUICKLISP_SETUP}"; \
+            find / -name 'quicklisp' -type d ; \
+        fi
+
+    - name: test
+      shell: bash
+      run: |
+        ./run-tests.sh
