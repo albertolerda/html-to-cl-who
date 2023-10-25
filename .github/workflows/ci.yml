@@ -2,7 +2,6 @@ name: 👷 Testing
 
 on:
   push:
-  workflow_dispatch:
 
 jobs:
   test:
@@ -11,9 +10,7 @@ jobs:
       image: containers.common-lisp.net/cl-docker-images/sbcl:latest
 
     env:
-      GITHUB_ACTION: true
       QUICKLISP_SETUP: /github/home/quicklisp/setup.lisp
-      GITHUB_WORKSPACE:
 
     steps:
     - uses: actions/checkout@v4
