@@ -9,8 +9,10 @@
            ((text-node-p root)
             (let ((txt (string-trim '(#\Space #\Newline #\Backspace #\Tab 
                                       #\Linefeed #\Page #\Return #\Rubout)
-                                    (text root))))
+                                    (render-text root))))
               (if (equal txt "") "" (format nil " \"~A\"" txt))))
+	   ((comment-p root)
+	    (format nil " #|~A|#" (build-sexp (render-text root))))
            (t 
             (let ((attrs (attributes root)))
               (format nil "~%(:~A~:{ :~A \"~A\"~}~{~A~})"
@@ -19,7 +21,9 @@
                             for value being the hash-value of attrs
                             collect (list key value))
                       (map 'list #'iter (children root))))))))
-    (apply #'concatenate (cons 'string (map 'list #'iter (children (plump:parse str)))))))
+    (apply #'concatenate (cons 'string
+			       (map 'list #'iter (children
+						  (plump:parse str)))))))
 
 (defvar *server* (make-instance 'easy-acceptor :port 3333))
 
